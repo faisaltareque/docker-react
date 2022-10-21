@@ -2,9 +2,14 @@ From node:alpine
 
 WORKDIR '/app'
 
-COPY package.json .
+COPY --chown=node:node package.json .
+# COPY .npmrc .
+RUN npm cache clear --force
 RUN npm install
+# RUN chmod 777 node_modules
 
-Copy . .
+COPY --chown=node:node . .
+
+USER node
 
 CMD ["npm", "run", "start"]
